@@ -6,7 +6,7 @@ Fast proceedural cave generation using celullar automata
 
 ##  Sample output
 * seed: 1
-* chance to start alive: 6
+* chance to start alive: 45
 * smoothing iterations: 6
 * width: 100
 * height: 450
@@ -108,5 +108,13 @@ XXXXXXX  XXXXXXXXXXXXX       XX     XXXXXXXXXXXXXXXXXXXXXXX     XXXXXXXXX       
 12 ms
 10.175 ms averaged 120 runs
 ```
+
+Another test, same inputs as above, but with a height of 45,000
+```
+1483 ms
+1020.68 ms averaged 120 runs
+```
+
+Tested on a Pentium G3440 @ 3.3GHz
 
 Code derived from https://github.com/RhiannonMichelmore/cpp-cave-gen
