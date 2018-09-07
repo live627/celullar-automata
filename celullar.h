@@ -1,22 +1,21 @@
 ﻿#pragma once
 
-#include <vector>
 #include <memory>
-#include <queue>
-#include <time.h>
+#include <random>
 
 class Cellular
 {
 	std::unique_ptr<bool[]> map;
 	int width, height, size, chanceToStartAlive;
-	unsigned int seed;
+	std::default_random_engine generator;
+	std::uniform_int_distribution<int> distribution;
 public:
 	Cellular(
 		const int & width,
 		const int & height,
 		const int & chanceToStartAlive = 44,
 		const int & smoothingIterations = 4,
-		const unsigned int & seed = time(nullptr),
+		const unsigned int & seed = std::default_random_engine::default_seed,
 		const int & wallThreshold = 50,
 		const int & roomthreshold = 50)
 		:
@@ -24,7 +23,8 @@ public:
 		height(height),
 		size(height * width),
 		chanceToStartAlive(chanceToStartAlive),
-		seed(seed)
+		generator(seed),
+		distribution(0, 100)
 	{
 		map = std::make_unique<bool[]>(size);
 
@@ -37,12 +37,8 @@ public:
 private:
 	inline void Generate()
 	{
-		// Seed the random-number generator with the current time so that
-		// the numbers will be different every time we run.
-		srand(seed);
-
 		for (int index = 0; index < size; index++)
-			map[index] = rand() % 100 + 1 < chanceToStartAlive;
+			map[index] = distribution(generator) < chanceToStartAlive;
 	}
 	// Iterates through every tile in the map and decides if needs to be born, die, or remain unchanged
 	inline void Smooth()
